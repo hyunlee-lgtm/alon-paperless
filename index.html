@@ -5,320 +5,253 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ALON Paperless - 전기차 충전시설 신고 시스템</title>
     <style>
-        body { font-family: 'Malgun Gothic', sans-serif; background-color: #f8f9fa; padding: 20px; color: #333; }
-        .container { max-width: 900px; margin: 0 auto; }
+        body { font-family: 'Malgun Gothic', 'Apple SD Gothic Neo', sans-serif; background-color: #f3f4f6; padding: 30px; color: #000; }
+        .container { max-width: 900px; margin: 0 auto; background: #fff; padding: 50px 60px; border: 1px solid #9ca3af; box-shadow: 0 4px 10px rgba(0,0,0,0.05); }
         
-        /* ALON 상단 시스템 바 */
-        .system-header { background-color: #1e293b; color: white; padding: 15px 20px; border-radius: 6px; margin-bottom: 20px; display: flex; justify-content: space-between; align-items: center; }
-        .system-title { font-size: 18px; font-weight: bold; letter-spacing: 1px; }
-        .system-title span { color: #38bdf8; }
-
-        .form-container { background: #fff; padding: 40px; border: 1px solid #718096; border-radius: 4px; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1); margin-bottom: 40px; }
-        .header-top { display: flex; justify-content: space-between; font-size: 13px; font-weight: bold; margin-bottom: 15px; }
-        .law-title { color: #000; }
-        .page-side { color: #000; }
+        /* 상단 양식 정보 고정 */
+        .header-top { display: flex; justify-content: space-between; font-size: 13px; font-weight: bold; margin-bottom: 25px; }
         
-        /* 메인 타이틀 정밀 구성 */
-        .title-area { display: flex; justify-content: center; align-items: center; gap: 20px; margin: 20px 0 10px 0; }
-        .main-title { font-size: 28px; font-weight: 900; letter-spacing: 1px; margin: 0; }
-        .check-box-zone { display: flex; flex-direction: column; font-size: 18px; font-weight: bold; line-height: 1.4; }
-        .report-word { font-size: 24px; font-weight: bold; margin-left: 5px; }
+        /* 메인 제목부 (라디오 버튼 우측 정렬 유지) */
+        .title-container { display: flex; justify-content: center; align-items: center; gap: 30px; margin: 30px 0 15px 0; position: relative; }
+        .main-title { font-size: 30px; font-weight: 800; letter-spacing: 2px; }
+        .type-selector { display: flex; flex-direction: column; font-size: 16px; font-weight: bold; line-height: 1.5; }
+        .type-selector input { margin-right: 6px; transform: scale(1.1); }
+        .title-suffix { font-size: 26px; font-weight: bold; }
         
-        .notice { font-size: 12px; color: #000; margin-bottom: 5px; }
+        .notice-text { font-size: 12px; color: #000; margin-bottom: 8px; font-weight: normal; }
         
-        /* PDF 원본 서식 테이블 스타일 */
-        table.gov-table { width: 100%; border-collapse: collapse; margin-bottom: 20px; font-size: 13px; color: #000; }
-        table.gov-table th, table.gov-table td { border: 1px solid #000; padding: 6px 8px; vertical-align: middle; }
-        table.gov-table th { background-color: #fff; font-weight: bold; text-align: center; }
-        table.gov-table td.label-cell { background-color: #fff; text-align: left; }
-        .bg-dark-gray { background-color: #b8b8b8 !important; } /* 접수번호 배경 */
+        /* 테이블 마스터 스타일 (외곽선 두껍게) */
+        table.gov-form { width: 100%; border-collapse: collapse; margin-bottom: 20px; font-size: 13px; table-layout: fixed; border: 1px solid #000; }
+        table.gov-form th, table.gov-form td { border: 1px solid #000; padding: 8px; vertical-align: middle; height: 32px; box-sizing: border-box; }
         
-        /* 입력창 디자인 변경 (인쇄 서식 느낌) */
-        input[type="text"], input[type="email"] { width: 100%; padding: 4px; box-sizing: border-box; border: 1px solid #cbd5e1; border-radius: 2px; font-size: 13px; }
-        input[type="text"].num-input { width: 45px; text-align: center; display: inline-block; border-bottom: 1px solid #000; border-top:none; border-left:none; border-right:none; border-radius:0; padding:0; background:transparent; }
-        input[type="checkbox"], input[type="radio"] { margin-right: 4px; transform: scale(1.1); vertical-align: middle; }
+        /* 회색 음영 칸 */
+        .bg-gray { background-color: #d1d5db !important; }
         
-        .footer-text { text-align: left; margin-top: 30px; font-size: 14px; line-height: 1.8; word-break: keep-all; }
-        .signature-line { display: flex; justify-content: flex-end; gap: 50px; margin-top: 40px; font-size: 15px; }
-        .date-line { text-align: center; margin-top: 30px; font-size: 15px; font-weight: bold; letter-spacing: 2px; }
-        .recipient { font-size: 22px; font-weight: bold; margin-top: 40px; border-bottom: 2px solid #000; padding-bottom: 8px; width: fit-content; }
-        .form-footer-info { display: flex; justify-content: space-between; font-size: 12px; color: #000; margin-top: 20px; border-top: 1px solid #000; padding-top: 8px; }
+        /* 입력창 스타일 - 테두리를 없애고 인쇄 서식처럼 하단 밑줄이나 깔끔한 박스 처리 */
+        input[type="text"], input[type="email"] { width: 100%; border: 1px solid #cbd5e1; border-radius: 2px; padding: 4px 6px; box-sizing: border-box; font-size: 13px; }
+        input:focus { border-color: #4b5563; outline: none; }
         
-        /* 하단 저장 데이터 현황 */
-        .btn-area { text-align: center; margin-top: 30px; }
-        .btn-submit { background-color: #0284c7; color: white; padding: 12px 40px; border: none; border-radius: 4px; font-size: 16px; cursor: pointer; font-weight: bold; }
-        .btn-submit:hover { background-color: #0369a1; }
-        .list-container { background: #fff; padding: 30px; border: 1px solid #cbd5e1; border-radius: 6px; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1); }
-        .list-title { font-size: 18px; font-weight: bold; margin-bottom: 15px; border-left: 4px solid #0284c7; padding-left: 10px; }
-        .data-table { width: 100%; border-collapse: collapse; margin-top: 10px; font-size: 13px; }
-        .data-table th { background-color: #0f172a; color: white; border: 1px solid #334155; padding: 8px; }
-        .data-table td { text-align: center; border: 1px solid #e2e8f0; padding: 8px; }
+        /* 수량 및 용량 적는 미니 밑줄 인풋 */
+        .line-input { border: none !important; border-bottom: 1px solid #000 !important; width: 50px; text-align: center; padding: 0; font-size: 13px; background: transparent; }
+        
+        /* 텍스트 정렬 보조 */
+        .text-center { text-align: center; }
+        .text-right { text-align: right; }
+        
+        /* 서식 내부 구조 전용 서브 레이아웃 */
+        .flex-row { display: flex; align-items: center; justify-content: space-between; width: 100%; }
+        .qty-line-container { line-height: 2.2; text-align: left; padding-left: 10px; }
+        
+        /* 하단 서명부 */
+        .footer-law { font-size: 14px; line-height: 1.8; margin-top: 35px; text-align: justify; word-break: keep-all; }
+        .date-center { text-align: center; margin-top: 40px; font-size: 15px; font-weight: bold; }
+        .signature-area { display: flex; justify-content: space-between; align-items: center; margin-top: 40px; padding: 0 40px; font-size: 15px; font-weight: bold; }
+        .gov-recipient { font-size: 22px; font-weight: bold; margin-top: 50px; letter-spacing: 2px; }
+        
+        .form-meta-footer { display: flex; justify-content: space-between; font-size: 12px; margin-top: 35px; border-top: 1px solid #000; padding-top: 10px; font-weight: 500; }
+        
+        /* 내부 시스템 등록 버튼 */
+        .sys-btn-zone { text-align: center; margin-top: 40px; border-top: 2px dashed #9ca3af; padding-top: 20px; }
+        .sys-btn { background-color: #0f172a; color: white; padding: 12px 50px; border: none; border-radius: 4px; font-size: 15px; font-weight: bold; cursor: pointer; }
+        .sys-btn:hover { background-color: #1e293b; }
     </style>
 </head>
 <body>
 
 <div class="container">
-    <div class="system-header">
-        <div class="system-title">ALON <span>Paperless</span> SYSTEM</div>
-        <div>전기차 충전시설 신고 모듈</div>
+    <div class="header-top">
+        <div>■ 전기안전관리법 시행규칙 [별지 제13호의2서식] &lt;개정 2025. 11. 25.&gt; [cite: 1]</div>
+        <div>(앞쪽) [cite: 8]</div>
     </div>
 
-    <form id="reportForm" class="form-container">
-        <div class="header-top">
-            <div class="law-title">■ 전기안전관리법 시행규칙 [별지 제13호의2서식] &lt;개정 2025. 11. 25.&gt;</div>
-            <div class="page-side">(앞쪽)</div>
+    <div class="title-container">
+        <div class="main-title">전기자동차 충전시설</div> [cite: 2]
+        <div class="type-selector">
+            <label><input type="radio" name="report_type" value="설치" checked> <strong>[ ] 설치</strong></label> [cite: 3]
+            <label><input type="radio" name="report_type" value="변경"> <strong>[ ] 변경</strong></label> [cite: 3]
         </div>
+        <div class="title-suffix">신고서</div> [cite: 7]
+    </div>
 
-        <div class="title-area">
-            <div class="main-title">전기자동차 충전시설</div>
-            <div class="check-box-zone">
-                <label><input type="radio" name="report_type" value="설치" checked> <strong>[ ] 설치</strong></label>
-                <label><input type="radio" name="report_type" value="변경"> <strong>[ ] 변경</strong></label>
-            </div>
-            <div class="report-word">신고서</div>
-        </div>
+    <div class="notice-text">※ 바탕색이 어두운 난은 신고인이 작성하지 않으며, [ ]에는 해당되는 곳에 √ 표를 합니다. [cite: 4]</div>
 
-        <div class="notice">※ 바탕색이 어두운 난은 신고인이 작성하지 않으며, [ ]에는 해당되는 곳에 √ 표를 합니다.</div>
-
-        <table class="gov-table">
-            <tr>
-                <th class="bg-dark-gray" style="width: 15%;">접수번호</th>
-                <td class="bg-dark-gray" style="width: 35%;"><input type="text" disabled></td>
-                <th class="bg-dark-gray" style="width: 15%;">접수일</th>
-                <td class="bg-dark-gray" style="width: 35%;"><input type="text" disabled></td>
-            </tr>
-            
-            <tr>
-                <th rowspan="3" style="width: 8px;">신고인</th>
-                <td class="label-cell" style="width: 18%;">성명(대표자)</td>
-                <td style="width: 32%;"><input type="text" id="name" required></td>
-                <td class="label-cell" style="width: 15%;">전화번호</td>
-                <td><input type="text" id="phone" required></td>
-            </tr>
-            <tr>
-                <td class="label-cell" rowspan="2">회사명 또는 상호</td>
-                <td rowspan="2"><input type="text" id="company_name" required value="ALON"></td>
-                <td class="label-cell">전자우편</td>
-                <td><input type="email" id="email" required></td>
-            </tr>
-            <tr>
-                <td class="label-cell">주소</td>
-                <td><input type="text" id="address" required></td>
-            </tr>
-
-            <tr>
-                <th rowspan="2">충전시설<br>설치 사업장</th>
-                <td class="label-cell">충전시설 위치<br>(설치주소)</td>
-                <td colspan="3"><input type="text" id="install_address" required></td>
-            </tr>
-            <tr>
-                <td class="label-cell">사업장 명칭 또는 상호</td>
-                <td colspan="3">
-                    <div style="display: flex; align-items: center; justify-content: space-between;">
-                        <input type="text" id="biz_name" style="width: 60%;" required>
-                        <div style="width: 35%; text-align: right;">(전화번호: <input type="text" id="biz_phone" style="width: 70%; display:inline-block;"> )</div>
-                    </div>
-                </td>
-            </tr>
-
-            <tr>
-                <th rowspan="12">신고내용</th>
-                <td class="label-cell" rowspan="2">충전시설 설치수량</td>
-                <td style="text-align: center; background-color:#fcfcfc;">지상</td>
-                <td colspan="2">
-                    옥외 <input type="text" class="num-input" id="g_out"> 개, 
-                    <input type="text" class="num-input" id="g_f1"> 층 <input type="text" class="num-input" id="g_q1"> 개, 
-                    <input type="text" class="num-input" id="g_f2"> 층 <input type="text" class="num-input" id="g_q2"> 개, 
-                    <input type="text" class="num-input" id="g_f3"> 층 <input type="text" class="num-input" id="g_q3"> 개
-                </td>
-                <td style="text-align: right; width:130px;">합계: <input type="text" class="num-input" id="g_total"> 개</td>
-            </tr>
-            <tr>
-                <td style="text-align: center; background-color:#fcfcfc;">지하</td>
-                <td colspan="2">
-                    <input type="text" class="num-input" id="b_f1"> 층 <input type="text" class="num-input" id="b_q1"> 개, 
-                    <input type="text" class="num-input" id="b_f2"> 층 <input type="text" class="num-input" id="b_q2"> 개, 
-                    <input type="text" class="num-input" id="b_f3"> 층 <input type="text" class="num-input" id="b_q3"> 개
-                </td>
-                <td style="text-align: right;">합계: <input type="text" class="num-input" id="b_total"> 개</td>
-            </tr>
-            
-            <tr>
-                <td class="label-cell" rowspan="7">충전시설 규격</td>
-                <td style="text-align: center; font-weight:bold;" rowspan="4">완속</td>
-                <td style="text-align: center; background-color:#fcfcfc; width: 60px;">종류</td>
-                <td style="text-align: center; background-color:#fcfcfc;">전기용량(kW) 및 갯수</td>
-                <td style="text-align: right;">합계: <input type="text" class="num-input" id="slow_total"> 개</td>
-            </tr>
-            <tr>
-                <td><input type="text" id="s_kind1"></td>
-                <td>kW: <input type="text" class="num-input" id="s_k1"> 개, kW: <input type="text" class="num-input" id="s_k2"> 개, kW: <input type="text" class="num-input" id="s_k3"> 개</td>
-                <td style="text-align: right;"><input type="text" class="num-input" id="s_r1"> 개</td>
-            </tr>
-            <tr>
-                <td><input type="text" id="s_kind2"></td>
-                <td>kW: <input type="text" class="num-input" id="s_k4"> 개, kW: <input type="text" class="num-input" id="s_k5"> 개, kW: <input type="text" class="num-input" id="s_k6"> 개</td>
-                <td style="text-align: right;"><input type="text" class="num-input" id="s_r2"> 개</td>
-            </tr>
-            <tr>
-                <td><input type="text" id="s_kind3"></td>
-                <td>kW: <input type="text" class="num-input" id="s_k7"> 개, kW: <input type="text" class="num-input" id="s_k8"> 개, kW: <input type="text" class="num-input" id="s_k9"> 개</td>
-                <td style="text-align: right;"><input type="text" class="num-input" id="s_r3"> 개</td>
-            </tr>
-            
-            <tr>
-                <td style="text-align: center; font-weight:bold;" rowspan="3">급속</td>
-                <td style="text-align: center; background-color:#fcfcfc;">종류</td>
-                <td style="text-align: center; background-color:#fcfcfc;">전기용량(kW) 및 갯수</td>
-                <td style="text-align: right;">합계: <input type="text" class="num-input" id="fast_total"> 개</td>
-            </tr>
-            <tr>
-                <td><input type="text" id="f_kind1"></td>
-                <td>kW: <input type="text" class="num-input" id="f_k1"> 개, kW: <input type="text" class="num-input" id="f_k2"> 개, kW: <input type="text" class="num-input" id="f_k3"> 개</td>
-                <td style="text-align: right;"><input type="text" class="num-input" id="f_r1"> 개</td>
-            </tr>
-            <tr>
-                <td><input type="text" id="f_kind2"></td>
-                <td>kW: <input type="text" class="num-input" id="f_k4"> 개, kW: <input type="text" class="num-input" id="f_k5"> 개, kW: <input type="text" class="num-input" id="f_k6"> 개</td>
-                <td style="text-align: right;"><input type="text" class="num-input" id="f_r2"> 개</td>
-            </tr>
-
-            <tr>
-                <td class="label-cell" rowspan="3">충전시설 운영자</td>
-                <td colspan="2">회사명 또는 상호: <input type="text" id="op_com1" style="width:70%; border:none; background:transparent;"></td>
-                <td colspan="2" style="text-align: right;">운영수량: <input type="text" class="num-input" id="op_q1"> 개</td>
-            </tr>
-            <tr>
-                <td colspan="2">회사명 또는 상호: <input type="text" id="op_com2" style="width:70%; border:none; background:transparent;"></td>
-                <td colspan="2" style="text-align: right;">운영수량: <input type="text" class="num-input" id="op_q2"> 개</td>
-            </tr>
-            <tr>
-                <td colspan="2">회사명 또는 상호: <input type="text" id="op_com3" style="width:70%; border:none; background:transparent;"></td>
-                <td colspan="2" style="text-align: right;">운영수량: <input type="text" class="num-input" id="op_q3"> 개</td>
-            </tr>
-
-            <tr>
-                <th style="font-size:12px;">변경 사유</th>
-                <td colspan="5">
-                    <div style="line-height: 1.7;">
-                        <label><input type="checkbox" name="ch_reason" value="위치"> [ ] 충전시설의 위치</label> &nbsp;&nbsp;
-                        <label><input type="checkbox" name="ch_reason" value="수량"> [ ] 충전시설의 설치수량</label> &nbsp;&nbsp;
-                        <label><input type="checkbox" name="ch_reason" value="규격"> [ ] 충전시설의 규격(충전시설의 전기용량을 포함합니다)</label> <br>
-                        <label><input type="checkbox" name="ch_reason" value="운영자"> [ ] 전기자동차 충전시설 운영자의 회사명 또는 상호</label>
-                    </div>
-                </td>
-            </tr>
-            <tr>
-                <th style="font-size:12px;">변경 사항</th>
-                <td colspan="2" style="text-align:center; background-color:#fcfcfc;">변경 전</td>
-                <td colspan="3" style="text-align:center; background-color:#fcfcfc;">변경 후</td>
-            </tr>
-            <tr>
-                <td></td>
-                <td colspan="2"><input type="text" id="ch_before" style="border:none; height:25px;"></td>
-                <td colspan="3"><input type="text" id="ch_after" style="border:none; height:25px;"></td>
-            </tr>
-        </table>
-
-        <div class="footer-text">
-            「전기안전관리법」 제21조의2제1항 및 같은 법 시행규칙 제24조의2제1항에 따라 위와 같이 전기자동차 충전시설 [ ]설치신고 [ ]변경신고를 합니다.
-        </div>
-
-        <div class="date-line">
-            2026년 <input type="text" id="curr_month" style="width:30px; text-align:center; border:none; border-bottom:1px solid #000; font-size:15px; font-weight:bold;">월 <input type="text" id="curr_day" style="width:30px; text-align:center; border:none; border-bottom:1px solid #000; font-size:15px; font-weight:bold;">일
-        </div>
-
-        <div class="signature-line">
-            <div>신고인 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; (서명 또는 인)</div>
-        </div>
-
-        <div class="recipient">서울특별시장 귀하</div>
-
-        <div class="form-footer-info">
-            <div>첨부서류 : 없음</div>
-            <div>수수료 : 없음</div>
-            <div>210mm×297mm[백상지(80g/m²)]</div>
-        </div>
+    <table class="gov-form">
+        <colgroup>
+            <col style="width: 5%;">
+            <col style="width: 13%;">
+            <col style="width: 32%;">
+            <col style="width: 13%;">
+            <col style="width: 37%;">
+        </colgroup>
         
-        <div class="btn-area">
-            <button type="submit" class="btn-submit">신고서 시스템 등록</button>
-        </div>
-    </form>
+        <tr>
+            <td colspan="2" class="text-center bg-gray"><strong>접수번호</strong></td>
+            <td class="bg-gray"><input type="text" disabled style="border:none; background:transparent;"></td>
+            <td class="text-center bg-gray"><strong>접수일</strong></td>
+            <td class="bg-gray"><input type="text" disabled style="border:none; background:transparent;"></td>
+        </tr>
+        
+        <tr>
+            <th rowspan="3" class="text-center">신<br><br>고<br><br>인</th>
+            <td>성명(대표자)</td>
+            <td><input type="text" id="user_name"></td>
+            <td>전화번호</td>
+            <td><input type="text" id="user_phone"></td>
+        </tr>
+        <tr>
+            <td rowspan="2">회사명 또는 상호</td>
+            <td rowspan="2"><input type="text" id="user_company" value="ALON"></td>
+            <td>전자우편</td>
+            <td><input type="email" id="user_email"></td>
+        </tr>
+        <tr>
+            <td>주소</td>
+            <td><input type="text" id="user_address"></td>
+        </tr>
+        
+        <tr>
+            <th rowspan="2" class="text-center">충전시설<br>설치 사업장</th>
+            <td>충전시설 위치<br>(설치주소)</td>
+            <td colspan="3"><input type="text" id="install_addr"></td>
+        </tr>
+        <tr>
+            <td>사업장 명칭<br>또는 상호</td>
+            <td colspan="3">
+                <div class="flex-row">
+                    <input type="text" id="biz_title" style="width: 65%;">
+                    <div style="width: 30%; text-align: right;">(전화번호: <input type="text" id="biz_phone" style="width: 60%; border:none; border-bottom:1px solid #000;"> )</div>
+                </div>
+            </td>
+        </tr>
+        
+        <tr>
+            <th rowspan="12" class="text-center">신<br>고<br>내<br>용</th>
+            <td rowspan="2">충전시설 설치수량</td>
+            <td class="text-center">지상</td>
+            <td class="qty-line-container">
+                옥외 <input type="text" class="line-input" id="g_out"> 개, 
+                <input type="text" class="line-input" id="g_f1"> 층 <input type="text" class="line-input" id="g_q1"> 개,<br>
+                <input type="text" class="line-input" id="g_f2"> 층 <input type="text" class="line-input" id="g_q2"> 개, 
+                <input type="text" class="line-input" id="g_f3"> 층 <input type="text" class="line-input" id="g_q3"> 개
+            </td>
+            <td class="text-right" style="font-weight: bold; padding-right: 15px;">합계: <input type="text" class="line-input" id="g_total"> 개</td>
+        </tr>
+        <tr>
+            <td class="text-center">지하</td>
+            <td class="qty-line-container">
+                <input type="text" class="line-input" id="b_f1"> 층 <input type="text" class="line-input" id="b_q1"> 개,<br>
+                <input type="text" class="line-input" id="b_f2"> 층 <input type="text" class="line-input" id="b_q2"> 개,<br>
+                <input type="text" class="line-input" id="b_f3"> 층 <input type="text" class="line-input" id="b_q3"> 개
+            </td>
+            <td class="text-right" style="font-weight: bold; padding-right: 15px;">합계: <input type="text" class="line-input" id="b_total"> 개</td>
+        </tr>
+        
+        <tr>
+            <td rowspan="7">충전시설 규격</td>
+            <td rowspan="4" class="text-center" style="font-weight: bold;">완속</td>
+            <td class="text-center bg-gray" style="height:25px; padding:2px;">종류</td>
+            <td class="text-center bg-gray" style="height:25px; padding:2px;">전기용량(kW) 및 갯수</td>
+            <td class="text-right bg-gray" style="height:25px; padding:2px; font-weight: bold; padding-right: 15px;">합계: <input type="text" class="line-input" id="slow_grand_total"> 개</td>
+        </tr>
+        <tr>
+            <td><input type="text" id="s_type1" style="border:none;"></td>
+            <td>kW: <input type="text" class="line-input" id="s_w1"> 개, kW: <input type="text" class="line-input" id="s_w2"> 개, kW: <input type="text" class="line-input" id="s_w3"> 개</td>
+            <td class="text-right"><input type="text" class="line-input" id="s_sub1"> 개</td>
+        </tr>
+        <tr>
+            <td><input type="text" id="s_type2" style="border:none;"></td>
+            <td>kW: <input type="text" class="line-input" id="s_w4"> 개, kW: <input type="text" class="line-input" id="s_w5"> 개, kW: <input type="text" class="line-input" id="s_w6"> 개</td>
+            <td class="text-right"><input type="text" class="line-input" id="s_sub2"> 개</td>
+        </tr>
+        <tr>
+            <td><input type="text" id="s_type3" style="border:none;"></td>
+            <td>kW: <input type="text" class="line-input" id="s_w7"> 개, kW: <input type="text" class="line-input" id="s_w8"> 개, kW: <input type="text" class="line-input" id="s_w9"> 개</td>
+            <td class="text-right"><input type="text" class="line-input" id="s_sub3"> 개</td>
+        </tr>
+        
+        <tr>
+            <td rowspan="3" class="text-center" style="font-weight: bold;">급속</td>
+            <td class="text-center bg-gray" style="height:25px; padding:2px;">종류</td>
+            <td class="text-center bg-gray" style="height:25px; padding:2px;">전기용량(kW) 및 갯수</td>
+            <td class="text-right bg-gray" style="height:25px; padding:2px; font-weight: bold; padding-right: 15px;">합계: <input type="text" class="line-input" id="fast_grand_total"> 개</td>
+        </tr>
+        <tr>
+            <td><input type="text" id="f_type1" style="border:none;"></td>
+            <td>kW: <input type="text" class="line-input" id="f_w1"> 개, kW: <input type="text" class="line-input" id="f_w2"> 개, kW: <input type="text" class="line-input" id="f_w3"> 개</td>
+            <td class="text-right"><input type="text" class="line-input" id="f_sub1"> 개</td>
+        </tr>
+        <tr>
+            <td><input type="text" id="f_type2" style="border:none;"></td>
+            <td>kW: <input type="text" class="line-input" id="f_w4"> 개, kW: <input type="text" class="line-input" id="f_w5"> 개, kW: <input type="text" class="line-input" id="f_w6"> 개</td>
+            <td class="text-right"><input type="text" class="line-input" id="f_sub2"> 개</td>
+        </tr>
+        
+        <tr>
+            <td rowspan="3">충전시설 운영자</td>
+            <td colspan="2">회사명 또는 상호: <input type="text" id="op_name1" style="width:60%; border:none;"></td>
+            <td colspan="2" class="text-right" style="padding-right:15px;">운영수량: <input type="text" class="line-input" id="op_qty1"> 개</td>
+        </tr>
+        <tr>
+            <td colspan="2">회사명 또는 상호: <input type="text" id="op_name2" style="width:60%; border:none;"></td>
+            <td colspan="2" class="text-right" style="padding-right:15px;">운영수량: <input type="text" class="line-input" id="op_qty2"> 개</td>
+        </tr>
+        <tr>
+            <td colspan="2">회사명 또는 상호: <input type="text" id="op_name3" style="width:60%; border:none;"></td>
+            <td colspan="2" class="text-right" style="padding-right:15px;">운영수량: <input type="text" class="line-input" id="op_qty3"> 개</td>
+        </tr>
+        
+        <tr>
+            <th colspan="2" class="text-center">변경 사유</th>
+            <td colspan="3" style="line-height: 1.8;">
+                <label><input type="checkbox"> [ ] 충전시설의 위치</label> &nbsp;
+                <label><input type="checkbox"> [ ] 충전시설의 설치수량</label> <br>
+                <label><input type="checkbox"> [ ] 충전시설의 규격(충전시설의 전기용량을 포함합니다)</label> <br>
+                <label><input type="checkbox"> [ ] 전기자동차 충전시설 운영자의 회사명 또는 상호</label>
+            </td>
+        </tr>
+        
+        <tr>
+            <th rowspan="2" class="text-center">변경 사항</th>
+            <td colspan="2" class="text-center bg-gray" style="height:25px; padding:2px;">변경 전</td>
+            <td colspan="2" class="text-center bg-gray" style="height:25px; padding:2px;">변경 후</td>
+        </tr>
+        <tr>
+            <td colspan="2"><input type="text" id="change_prev" style="border:none; width:100%;"></td>
+            <td colspan="2"><input type="text" id="change_next" style="border:none; width:100%;"></td>
+        </tr>
+    </table>
 
-    <div class="list-container">
-        <div class="list-title">ALON 내부 등록 현황 (실시간 확인용)</div>
-        <table class="data-table">
-            <thead>
-                <tr>
-                    <th>구분</th>
-                    <th>신고인</th>
-                    <th>사업장명</th>
-                    <th>지상 합계</th>
-                    <th>지하 합계</th>
-                    <th>등록일자</th>
-                </tr>
-            </thead>
-            <tbody id="dataTableBody">
-                </tbody>
-        </table>
+    <div class="footer-law">
+        「전기안전관리법」 제21조의2제1항 및 같은 법 시행규칙 제24조의2제1항에 따라 위와 같이 전기자동차 충전시설 [ ]설치신고 [ ]변경신고를 합니다. [cite: 9]
+    </div>
+    
+    <div class="date-center">
+        2026년 <span id="m_txt"></span>월 <span id="d_txt"></span>일 [cite: 13, 14, 15]
+    </div>
+    
+    <div class="signature-area">
+        <div>신고인 [cite: 10]</div>
+        <div style="font-weight: normal; color: #4b5563;">(서명 또는 인) [cite: 16]</div>
+    </div>
+    
+    <div class="gov-recipient">서울특별시장 귀하 [cite: 11]</div>
+    
+    <div class="form-meta-footer">
+        <div>첨부서류 : 없음 [cite: 12]</div>
+        <div>수수료 : 없음 [cite: 17]</div>
+        <div>210mm×297mm[백상지(80g/m²)] [cite: 18]</div>
+    </div>
+
+    <div class="sys-btn-zone">
+        <button type="button" class="sys-btn" onclick="alert('사내 시스템 등록이 완료되었습니다. (임시 기능)')">사내 시스템 등록하기</button>
     </div>
 </div>
 
 <script>
-    // 날짜 자동 기본값 입력
-    const today = new Date();
-    document.getElementById('curr_month').value = today.getMonth() + 1;
-    document.getElementById('curr_day').value = today.getDate();
-
-    function loadData() {
-        const tbody = document.getElementById('dataTableBody');
-        tbody.innerHTML = '';
-        const list = JSON.parse(localStorage.getItem('alon_perfect_reports')) || [];
-        
-        if(list.length === 0) {
-            tbody.innerHTML = '<tr><td colspan="6" style="padding:20px; color:#94a3b8; text-align:center;">등록된 신고서 데이터가 없습니다.</td></tr>';
-            return;
-        }
-        
-        list.reverse().forEach(item => {
-            const row = `<tr>
-                <td><strong>${item.type}</strong></td>
-                <td>${item.name}</td>
-                <td>${item.bizName}</td>
-                <td>${item.gTotal || '0'} 개</td>
-                <td>${item.bTotal || '0'} 개</td>
-                <td>${item.date}</td>
-            </tr>`;
-            tbody.innerHTML += row;
-        });
-    }
-
-    document.getElementById('reportForm').addEventListener('submit', function(e) {
-        e.preventDefault();
-        
-        const type = document.querySelector('input[name="report_type"]:checked').value;
-        const name = document.getElementById('name').value;
-        const bizName = document.getElementById('biz_name').value;
-        const gTotal = document.getElementById('g_total').value;
-        const bTotal = document.getElementById('b_total').value;
-        
-        const dateStr = `${today.getFullYear()}-${String(today.getMonth()+1).padStart(2,'0')}-${String(today.getDate()).padStart(2,'0')}`;
-
-        const newReport = { type, name, bizName, gTotal, bTotal, date: dateStr };
-        
-        const list = JSON.parse(localStorage.getItem('alon_perfect_reports')) || [];
-        list.push(newReport);
-        localStorage.setItem('alon_perfect_reports', JSON.stringify(list));
-        
-        alert('ALON 시스템에 완벽하게 등록되었습니다.');
-        this.reset();
-        document.getElementById('company_name').value = "ALON";
-        document.getElementById('curr_month').value = today.getMonth() + 1;
-        document.getElementById('curr_day').value = today.getDate();
-        loadData();
-    });
-
-    loadData();
+    // 현재 날짜 자동 표기 설정
+    const t = new Date();
+    document.getElementById('m_txt').innerText = t.getMonth() + 1;
+    document.getElementById('d_txt').innerText = t.getDate();
 </script>
 </body>
 </html>
