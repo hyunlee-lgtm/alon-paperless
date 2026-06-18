@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ALON Paperless - 전기차 충전시설 신고 시스템</title>
+    <style>
+        body { font-family: 'Malgun Gothic', sans-serif; background-color: #f8f9fa; padding: 20px; color: #333; }
+        .container { max-width: 900px; margin: 0 auto; }
+        
+        /* 상단 시스템 바 */
+        .system-header { background-color: #1e293b; color: white; padding: 15px 20px; border-radius: 8px; margin-bottom: 20px; display: flex; justify-content: space-between; align-items: center; }
+        .system-title { font-size: 18px; font-weight: bold; letter-spacing: 1px; }
+        .system-title span { color: #38bdf8; }
+
+        .form-container { background: #fff; padding: 40px; border: 1px solid #e2e8f0; border-radius: 8px; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1); margin-bottom: 40px; }
+        .header-top { display: flex; justify-content: space-between; font-size: 12px; color: #666; margin-bottom: 20px; }
+        h1 { text-align: center; font-size: 24px; margin-bottom: 5px; letter-spacing: 2px; color: #0f172a; }
+        .subtitle { text-align: center; font-size: 18px; font-weight: bold; margin-bottom: 20px; }
+        .notice { font-size: 12px; color: #666; margin-bottom: 10px; }
+        
+        table { width: 100%; border-collapse: collapse; margin-bottom: 20px; font-size: 14px; }
+        th, td { border: 1px solid #cbd5e1; padding: 10px; text-align: left; vertical-align: middle; }
+        th { background-color: #f1f5f9; font-weight: bold; text-align: center; width: 15%; color: #334155; }
+        .bg-dark-gray { background-color: #f8fafc; }
+        
+        input[type="text"], input[type="email"], select { width: 100%; padding: 8px; box-sizing: border-box; border: 1px solid #cbd5e1; border-radius: 4px; }
+        input[type="checkbox"], input[type="radio"] { margin-right: 5px; transform: scale(1.1); }
+        .inner-table { width: 100%; margin: 0; border: none; }
+        .inner-table td { border: none; padding: 5px; }
+        
+        .footer-text { text-align: center; margin-top: 30px; font-size: 14px; line-height: 1.8; }
+        .signature-line { display: flex; justify-content: flex-end; gap: 50px; margin-top: 20px; font-weight: bold; }
+        .recipient { font-size: 20px; font-weight: bold; margin-top: 40px; }
+        
+        /* 버튼 스타일 */
+        .btn-area { text-align: center; margin-top: 30px; }
+        .btn-submit { background-color: #0284c7; color: white; padding: 12px 40px; border: none; border-radius: 6px; font-size: 16px; cursor: pointer; font-weight: bold; transition: background 0.2s; }
+        .btn-submit:hover { background-color: #0369a1; }
+
+        /* 하단 데이터 리스트 영역 */
+        .list-container { background: #fff; padding: 30px; border: 1px solid #e2e8f0; border-radius: 8px; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1); }
+        .list-title { font-size: 18px; font-weight: bold; margin-bottom: 15px; border-left: 4px solid #0284c7; padding-left: 10px; color: #0f172a; }
+        .data-table { width: 100%; margin-top: 10px; }
+        .data-table th { background-color: #0f172a; color: white; }
+        .data-table td { text-align: center; }
+        .no-data { text-align: center; color: #94a3b8; padding: 30px; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="system-header">
+        <div class="system-title">ALON <span>Paperless</span> SYSTEM</div>
+        <div style="font-size: 14px;">전기차 충전시설 관리 모듈</div>
+    </div>
+
+    <form id="reportForm" class="form-container">
+        <div class="header-top">
+            <div>[별지 제13호의2서식] &lt;개정 2025. 11. 25.&gt;</div>
+            <div>(앞쪽)</div>
+        </div>
+
+        <h1>전기자동차 충전시설</h1>
+        <div class="subtitle">
+            <label><input type="radio" name="report_type" value="설치" checked> [ ] 설치</label> &nbsp;&nbsp;
+            <label><input type="radio" name="report_type" value="변경"> [ ] 변경</label> 신고서
+        </div>
+
+        <div class="notice">※ 바탕색이 어두운 난은 신고인이 작성하지 않으며, [ ]에는 해당되는 곳에 표를 합니다.</div>
+
+        <table>
+            <tr>
+                <th class="bg-dark-gray">접수번호</th>
+                <td class="bg-dark-gray"><input type="text" disabled placeholder="자동 생성"></td>
+                <th class="bg-dark-gray">접수일</th>
+                <td class="bg-dark-gray"><input type="text" disabled placeholder="자동 생성"></td>
+            </tr>
+            <tr>
+                <th rowspan="3">신고인</th>
+                <td>성명 (대표자)</td>
+                <td><input type="text" id="name" required placeholder="홍길동"></td>
+                <td>회사명 또는 상호</td>
+                <td><input type="text" id="company_name" required value="ALON"></td>
+            </tr>
+            <tr>
+                <td>전화번호</td>
+                <td><input type="text" id="phone" required placeholder="010-0000-0000"></td>
+                <td>전자우편</td>
+                <td><input type="email" id="email" required placeholder="alon@alon.com"></td>
+            </tr>
+            <tr>
+                <td>주소</td>
+                <td colspan="3"><input type="text" id="address" required></td>
+            </tr>
+            <tr>
+                <th rowspan="2">충전시설<br>설치 사업장</th>
+                <td>사업장 명칭</td>
+                <td><input type="text" id="biz_name" required></td>
+                <td>전화번호</td>
+                <td><input type="text" id="biz_phone"></td>
+            </tr>
+            <tr>
+                <td>설치 주소</td>
+                <td colspan="3"><input type="text" id="install_address" required></td>
+            </tr>
+            <tr>
+                <th rowspan="3">신고내용</th>
+                <td>설치수량 합계</td>
+                <td colspan="3">
+                    <input type="text" id="total_qty" placeholder="예: 지상 5개, 지하 3개 / 총 8개" required>
+                </td>
+            </tr>
+            <tr>
+                <td>완속 규격</td>
+                <td colspan="3"><input type="text" id="slow_spec" placeholder="예: 7kW 5개"></td>
+            </tr>
+            <tr>
+                <td>급속 규격</td>
+                <td colspan="3"><input type="text" id="fast_spec" placeholder="예: 100kW 2개"></td>
+            </tr>
+        </table>
+
+        <div class="footer-text">
+            「전기안전관리법」 제21조의2제1항 및 같은 법 시행규칙 제24조의2제1항에 따라 위와 같이 전기자동차 충전시설 설치/변경신고를 합니다.
+        </div>
+
+        <div class="signature-line">
+            <div>2026년 <input type="text" id="curr_month" style="width:30px; text-align:center;">월 <input type="text" id="curr_day" style="width:30px; text-align:center;">일</div>
+            <div>신고인: <input type="text" id="sig_name" style="width:100px; border:none; border-bottom:1px solid #000; text-align:center;"> (서명 또는 인)</div>
+        </div>
+
+        <div class="recipient">서울특별시장 귀하</div>
+        
+        <div class="btn-area">
+            <button type="submit" class="btn-submit">신고서 시스템 등록</button>
+        </div>
+    </form>
+
+    <div class="list-container">
+        <div class="list-title">ALON 내부 등록 현황 (실시간 공유 및 확인용)</div>
+        <table class="data-table">
+            <thead>
+                <tr>
+                    <th>구분</th>
+                    <th>신고인</th>
+                    <th>사업장명</th>
+                    <th>설치 수량</th>
+                    <th>등록일자</th>
+                </tr>
+            </thead>
+            <tbody id="dataTableBody">
+                </tbody>
+        </table>
+    </div>
+</div>
+
+<script>
+    // 날짜 자동 입력
+    const today = new Date();
+    document.getElementById('curr_month').value = today.getMonth() + 1;
+    document.getElementById('curr_day').value = today.getDate();
+
+    // 성명 입력시 서명란 자동 연동
+    document.getElementById('name').addEventListener('input', function(e) {
+        document.getElementById('sig_name').value = e.target.value;
+    });
+
+    // 데이터 로드 및 표시 함수
+    function loadData() {
+        const tbody = document.getElementById('dataTableBody');
+        tbody.innerHTML = '';
+        
+        const list = JSON.parse(localStorage.getItem('alon_ev_reports')) || [];
+        
+        if(list.length === 0) {
+            tbody.innerHTML = '<tr><td colspan="5" class="no-data">등록된 신고서 데이터가 없습니다.</td></tr>';
+            return;
+        }
+        
+        list.reverse().forEach(item => {
+            const row = `<tr>
+                <td><strong>${item.type}</strong></td>
+                <td>${item.name} (${item.company})</td>
+                <td>${item.bizName}</td>
+                <td>${item.totalQty}</td>
+                <td>${item.date}</td>
+            </tr>`;
+            tbody.innerHTML += row;
+        });
+    }
+
+    // 폼 제출 이벤트
+    document.getElementById('reportForm').addEventListener('submit', function(e) {
+        e.preventDefault();
+        
+        const type = document.querySelector('input[name="report_type"]:checked').value;
+        const name = document.getElementById('name').value;
+        const company = document.getElementById('company_name').value;
+        const bizName = document.getElementById('biz_name').value;
+        const totalQty = document.getElementById('total_qty').value;
+        
+        const dateStr = `${today.getFullYear()}-${String(today.getMonth()+1).padStart(2,'0')}-${String(today.getDate()).padStart(2,'0')}`;
+
+        const newReport = { type, name, company, bizName, totalQty, date: dateStr };
+        
+        const list = JSON.parse(localStorage.getItem('alon_ev_reports')) || [];
+        list.push(newReport);
+        localStorage.setItem('alon_ev_reports', JSON.stringify(list));
+        
+        alert('ALON Paperless 시스템에 성공적으로 등록되었습니다.');
+        this.reset();
+        document.getElementById('company_name').value = "ALON";
+        document.getElementById('curr_month').value = today.getMonth() + 1;
+        document.getElementById('curr_day').value = today.getDate();
+        loadData();
+    });
+
+    // 초기 로드
+    loadData();
+</script>
+</body>
+</html>
