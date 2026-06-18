@@ -11,40 +11,85 @@
 
         :root {
             --bg: #f4f4f0;
-            --surface: #ffffff;
-            --surface2: #f0f0ec;
-            --border: #e0e0da;
-            --border2: #c8c8c0;
+            --sidebar-bg: #0f172a;
+            --sidebar-hover: #1e293b;
             --accent: #0284c7;
-            --accent-dim: #0369a1;
-            --text: #111111;
-            --text2: #555555;
-            --text3: #999990;
+            --text-main: #111111;
         }
 
-        body { font-family: 'Pretendard', sans-serif; background: var(--bg); color: var(--text); margin: 0; padding: 0; display: flex; min-height: 100vh; }
+        body {
+            font-family: 'Pretendard', sans-serif;
+            background: var(--bg);
+            color: var(--text-main);
+            margin: 0;
+            padding: 0;
+            display: flex;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
         
-        /* 좌측 고정 사이드바 */
-        .sidebar { width: 260px; background-color: #0f172a; color: #fff; display: flex; flex-direction: column; border-right: 1px solid #1e293b; position: fixed; top: 0; bottom: 0; left: 0; z-index: 10; }
-        .sidebar-brand { padding: 25px 20px; font-size: 18px; font-weight: bold; letter-spacing: 1px; border-bottom: 1px solid #1e293b; background-color: #090d16; }
+        /* 고정 좌측 사이드바 */
+        .sidebar {
+            width: 260px;
+            background-color: var(--sidebar-bg);
+            color: #fff;
+            display: flex;
+            flex-direction: column;
+            position: fixed;
+            top: 0;
+            bottom: 0;
+            left: 0;
+            z-index: 100;
+            border-right: 1px solid #1e293b;
+        }
+        .sidebar-brand {
+            padding: 24px 20px;
+            font-size: 18px;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+            border-bottom: 1px solid #1e293b;
+            background-color: #090d16;
+        }
         .sidebar-brand span { color: #38bdf8; }
         .sidebar-menu { list-style: none; padding: 15px 0; margin: 0; flex-grow: 1; }
-        .sidebar-item { padding: 12px 20px; font-size: 14px; font-weight: 500; color: #94a3b8; cursor: pointer; display: flex; align-items: center; gap: 10px; transition: all 0.2s; }
-        .sidebar-item:hover { background-color: #1e293b; color: #fff; }
-        .sidebar-item.active { background-color: #0284c7; color: #fff; font-weight: bold; }
+        .sidebar-item {
+            padding: 14px 20px;
+            font-size: 14px;
+            font-weight: 500;
+            color: #94a3b8;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            transition: all 0.15s ease;
+        }
+        .sidebar-item:hover { background-color: var(--sidebar-hover); color: #fff; }
+        .sidebar-item.active { background-color: var(--accent); color: #fff; font-weight: 700; }
         .sidebar-footer { padding: 15px 20px; font-size: 11px; color: #475569; border-top: 1px solid #1e293b; background-color: #090d16; }
 
-        /* 우측 콘텐츠 메인 영역 */
-        .main-content { margin-left: 260px; flex-grow: 1; min-height: 100vh; box-sizing: border-box; }
+        /* 메인 콘텐츠 영역 (사이드바 너비만큼 마진 확보) */
+        .main-content {
+            margin-left: 260px;
+            flex-grow: 1;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
         
-        /* 상태 메시지 스타일 */
-        .status-msg { font-size: 16px; color: #64748b; font-weight: bold; margin-top: 150px; text-align: center; line-height: 1.6; }
+        /* 서식 동적 로드 공간 */
+        #content-stage {
+            flex-grow: 1;
+            width: 100%;
+            display: flex;
+        }
+
+        .status-msg { font-size: 15px; color: #64748b; font-weight: 500; margin: auto; padding: 40px; text-align: center; }
         .error-msg { color: #ef4444; }
 
-        /* 공통 로딩 오버레이 */
-        .loading-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.7); z-index: 100; align-items: center; justify-content: center; flex-direction: column; gap: 12px; color: #fff; font-size: 13px; }
+        /* 전역 공통 로딩 오버레이 */
+        .loading-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.6); z-index: 9999; align-items: center; justify-content: center; flex-direction: column; gap: 12px; color: #fff; font-size: 14px; }
         .loading-overlay.show { display: flex; }
-        .spinner { width: 28px; height: 28px; border: 2px solid #555; border-top-color: #38bdf8; border-radius: 50%; animation: spin 0.7s linear infinite; }
+        .spinner { width: 32px; height: 32px; border: 3px solid #334155; border-top-color: #38bdf8; border-radius: 50%; animation: spin 0.8s linear infinite; }
         @keyframes spin { to { transform: rotate(360deg); } }
     </style>
 </head>
@@ -56,23 +101,25 @@
             <li class="sidebar-item active" data-file="ev_report.html" onclick="selectMenu(this)">⚡ 전기차 충전시설 신고서</li>
             <li class="sidebar-item" data-file="receipt_gen.html" onclick="selectMenu(this)">🧾 충전 영수증 생성기</li>
         </ul>
-        <div class="sidebar-footer">© 2026 ALON 서식 인프라팀</div>
+        <div class="sidebar-footer">© 2026 ALON 서식 시스템</div>
     </nav>
 
-    <main class="main-content" id="content-stage">
-        <div class="status-msg">양식을 불러오는 중입니다...</div>
+    <main class="main-content">
+        <div id="content-stage">
+            <div class="status-msg">서식을 불러오는 중입니다...</div>
+        </div>
     </main>
 
     <div class="loading-overlay" id="loading">
         <div class="spinner"></div>
-        <span id="loading-msg">생성 중...</span>
+        <span id="loading-msg">처리 중...</span>
     </div>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 
     <script>
-        // 비동기 양식 로딩 함수
+        // 비동기 파일 템플릿 로더
         async function loadForm(fileName) {
             const stage = document.getElementById('content-stage');
             try {
@@ -82,18 +129,28 @@
                 const htmlContent = await response.text();
                 stage.innerHTML = htmlContent;
                 
-                // 파일 로드 후 각각의 파일에 특화된 초기화 스크립트 허브 구동
-                initFormScriptHub(fileName);
+                // 삽입된 HTML 내부의 스크립트 수동 구동 처리
+                const scripts = stage.getElementsByTagName('script');
+                for (let script of scripts) {
+                    const newScript = document.createElement('script');
+                    newScript.text = script.text;
+                    document.body.appendChild(newScript).parentNode.removeChild(newScript);
+                }
+
+                // 각 메뉴별 진입 초기화 실행
+                if (fileName === 'receipt_gen.html' && typeof update === 'function') {
+                    update();
+                }
             } catch (error) {
                 stage.innerHTML = `
                     <div class="status-msg error-msg">
                         ⚠️ 양식 로드 실패 (${fileName})<br><br>
-                        파일이 깃허브 저장소에 정확히 업로드되었는지 확인해 주세요.
+                        파일 내용을 읽어오지 못했습니다. 깃허브 페이지 새로고침(Ctrl+Shift+R)을 시도해 주세요.
                     </div>`;
             }
         }
 
-        // 메뉴 선택 이벤트
+        // 메뉴 전환 이벤트 제어
         function selectMenu(element) {
             document.querySelectorAll('.sidebar-item').forEach(item => item.classList.remove('active'));
             element.classList.add('active');
@@ -102,23 +159,7 @@
             loadForm(fileName);
         }
 
-        // 서식별 전용 스크립트 초기화 처리기
-        function initFormScriptHub(fileName) {
-            if (fileName === 'ev_report.html') {
-                const mTxt = document.querySelector('.m_txt');
-                const dTxt = document.querySelector('.d_txt');
-                if (mTxt && dTxt) {
-                    const t = new Date();
-                    mTxt.innerText = t.getMonth() + 1;
-                    dTxt.innerText = t.getDate();
-                }
-            } else if (fileName === 'receipt_gen.html') {
-                // 영수증 생성기가 로드되었을 시 미리보기 데이터 빈 상태 리프레시
-                if (typeof update === "function") { update(); }
-            }
-        }
-
-        // 로딩 바 제어 함수 (영수증 하위 파일에서 호출 가능하도록 전역 배치)
+        // 하위 폼 제어용 전역 유틸리티 함수
         function showLoading(msg) {
             document.getElementById('loading-msg').textContent = msg;
             document.getElementById('loading').classList.add('show');
@@ -127,7 +168,7 @@
             document.getElementById('loading').classList.remove('show');
         }
 
-        // 첫 페이지 로드 시 첫 메뉴 연동
+        // 초기 구동 시 active 메뉴 로드
         window.addEventListener('DOMContentLoaded', () => {
             const activeMenu = document.querySelector('.sidebar-item.active');
             if (activeMenu) {
