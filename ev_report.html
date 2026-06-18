@@ -17,7 +17,7 @@
         
         <p class="top-helper-text">※ 바탕색이 어두운 난은 신고인이 작성하지 않으며, [ ]에는 해당되는 곳에 √표를 합니다.</p>
 
-        <table class="report-base-table">
+        <table class="report-base-outer-table">
             <colgroup>
                 <col style="width: 15%;">
                 <col style="width: 35%;">
@@ -26,160 +26,162 @@
             </colgroup>
             <tbody>
                 <tr>
-                    <td class="bg-dim">접수번호</td>
+                    <td class="bg-dim font-bold">접수번호</td>
                     <td><input type="text" class="txt-center" placeholder="(공란)" readonly></td>
-                    <td class="bg-dim">접수일</td>
+                    <td class="bg-dim font-bold">접수일</td>
                     <td><input type="text" class="txt-center" placeholder="(공란)" readonly></td>
                 </tr>
             </tbody>
         </table>
 
-        <table class="report-main-table">
+        <table class="report-base-outer-table" style="margin-top: -1px;">
             <colgroup>
                 <col style="width: 5%;">  <col style="width: 95%;"> </colgroup>
             <tbody>
                 <tr>
-                    <td class="bg-dim txt-vertical">신고인</td>
-                    <td style="padding: 0;">
-                        <table class="inner-sub-table">
+                    <td class="bg-dim font-bold txt-vertical">신고인</td>
+                    <td class="no-padding">
+                        <table class="inner-grid-layout">
                             <colgroup>
                                 <col style="width: 15%;">
                                 <col style="width: 35%;">
                                 <col style="width: 15%;">
                                 <col style="width: 35%;">
                             </colgroup>
-                            <tr>
-                                <td class="bg-pure">성명(대표자)</td>
-                                <td><input type="text" placeholder="성명 입력"></td>
-                                <td class="bg-pure">전화번호</td>
-                                <td><input type="text" placeholder="02-1234-5678"></td>
-                            </tr>
-                            <tr>
-                                <td class="bg-pure">회사명 또는 상호</td>
-                                <td><input type="text" value="ALON"></td>
-                                <td class="bg-pure">전자우편</td>
-                                <td><input type="text" placeholder="test@test.com"></td>
-                            </tr>
-                            <tr>
-                                <td class="bg-pure">주소</td>
-                                <td colspan="3"><input type="text" placeholder="주소 입력"></td>
-                            </tr>
+                            <tbody>
+                                <tr>
+                                    <td class="bg-pure">성명(대표자)</td>
+                                    <td><input type="text" placeholder="성명 입력"></td>
+                                    <td class="bg-pure">전화번호</td>
+                                    <td><input type="text" placeholder="02-1234-5678"></td>
+                                </tr>
+                                <tr>
+                                    <td class="bg-pure">회사명 또는 상호</td>
+                                    <td><input type="text" value="ALON"></td>
+                                    <td class="bg-pure">전자우편</td>
+                                    <td><input type="text" placeholder="test@test.com"></td>
+                                </tr>
+                                <tr>
+                                    <td class="bg-pure">주소</td>
+                                    <td colspan="3"><input type="text" placeholder="주소 입력"></td>
+                                </tr>
+                            </tbody>
                         </table>
                     </td>
                 </tr>
 
                 <tr>
-                    <td class="bg-dim txt-vertical" style="line-height: 1.3;">충전시설<br>설치<br>사업장</td>
-                    <td style="padding: 0;">
-                        <table class="inner-sub-table">
+                    <td class="bg-dim font-bold txt-vertical">충전시설<br>설치<br>사업장</td>
+                    <td class="no-padding">
+                        <table class="inner-grid-layout">
                             <colgroup>
                                 <col style="width: 15%;">
                                 <col style="width: 35%;">
                                 <col style="width: 15%;">
                                 <col style="width: 35%;">
                             </colgroup>
-                            <tr>
-                                <td class="bg-pure">충전시설 위치<br>(설치주소)</td>
-                                <td colspan="3"><input type="text" placeholder="설치 주소 입력"></td>
-                            </tr>
-                            <tr>
-                                <td class="bg-pure">사업장 명칭<br>또는 상호</td>
-                                <td><input type="text" placeholder="사업장 명칭"></td>
-                                <td class="bg-pure">전화번호</td>
-                                <td class="txt-left" style="padding-left: 8px;">
-                                    (전화번호: <input type="text" class="border-bottom-input" style="width: 120px;"> )
-                                </td>
-                            </tr>
+                            <tbody>
+                                <tr>
+                                    <td class="bg-pure">충전시설 위치<br>(설치주소)</td>
+                                    <td colspan="3"><input type="text" placeholder="설치 실제 주소"></td>
+                                </tr>
+                                <tr>
+                                    <td class="bg-pure">사업장 명칭<br>또는 상호</td>
+                                    <td><input type="text" placeholder="사업장 명칭 입력"></td>
+                                    <td class="bg-pure">전화번호</td>
+                                    <td class="txt-left" style="padding-left: 8px;">
+                                        (전화번호: <input type="text" class="border-bottom-input" style="width: 120px;"> )
+                                    </td>
+                                </tr>
+                            </tbody>
                         </table>
                     </td>
                 </tr>
 
                 <tr>
-                    <td class="bg-dim txt-vertical">신고내용</td>
-                    <td style="padding: 0;">
-                        <table class="inner-sub-table">
+                    <td class="bg-dim font-bold txt-vertical">신고내용</td>
+                    <td class="no-padding">
+                        <table class="inner-grid-layout">
                             <colgroup>
                                 <col style="width: 12%;"> <col style="width: 88%;"> </colgroup>
                             <tbody>
                                 <tr>
-                                    <td class="bg-pure txt-center" style="font-weight: bold;">충전시설<br>설치수량</td>
-                                    <td style="padding: 0;">
-                                        <table class="nested-flat-table">
+                                    <td class="bg-pure font-bold txt-center">충전시설<br>설치수량</td>
+                                    <td class="no-padding">
+                                        <table class="nested-cell-layout">
                                             <colgroup>
                                                 <col style="width: 10%;">
                                                 <col style="width: 75%;">
                                                 <col style="width: 15%;">
                                             </colgroup>
-                                            <tr>
-                                                <td class="bg-pure">지상</td>
-                                                <td class="txt-left">
-                                                    옥외 <input type="text" class="border-bottom-input"> 개, &nbsp;
-                                                    <input type="text" class="border-bottom-input"> 층 <input type="text" class="border-bottom-input"> 개, &nbsp;
-                                                    <input type="text" class="border-bottom-input"> 층 <input type="text" class="border-bottom-input"> 개, &nbsp;
-                                                    <input type="text" class="border-bottom-input"> 층 <input type="text" class="border-bottom-input"> 개
-                                                </td>
-                                                <td class="bg-pure" style="border-right:none;">합계: <input type="text" class="blank-input" style="width:25px;">개</td>
-                                            </tr>
-                                            <tr style="border-bottom: none;">
-                                                <td class="bg-pure" style="border-bottom: none;">지하</td>
-                                                <td class="txt-left" style="border-bottom: none;">
-                                                    <input type="text" class="border-bottom-input"> 층 <input type="text" class="border-bottom-input"> 개, &nbsp;
-                                                    <input type="text" class="border-bottom-input"> 층 <input type="text" class="border-bottom-input"> 개, &nbsp;
-                                                    <input type="text" class="border-bottom-input"> 층 <input type="text" class="border-bottom-input"> 개
-                                                </td>
-                                                <td class="bg-pure" style="border-bottom: none; border-right:none;">합계: <input type="text" class="blank-input" style="width:25px;">개</td>
-                                            </tr>
+                                            <tbody>
+                                                <tr>
+                                                    <td class="bg-pure">지상</td>
+                                                    <td class="txt-left">
+                                                        옥외 <input type="text" class="border-bottom-input"> 개, &nbsp;
+                                                        <input type="text" class="border-bottom-input"> 층 <input type="text" class="border-bottom-input"> 개, &nbsp;
+                                                        <input type="text" class="border-bottom-input"> 층 <input type="text" class="border-bottom-input"> 개, &nbsp;
+                                                        <input type="text" class="border-bottom-input"> 층 <input type="text" class="border-bottom-input"> 개
+                                                    </td>
+                                                    <td class="bg-pure font-bold" style="border-right: none;">합계: <input type="text" class="blank-input-box" style="width:25px;">개</td>
+                                                </tr>
+                                                <tr style="border-bottom: none;">
+                                                    <td class="bg-pure" style="border-bottom: none;">지하</td>
+                                                    <td class="txt-left" style="border-bottom: none;">
+                                                        <input type="text" class="border-bottom-input"> 층 <input type="text" class="border-bottom-input"> 개, &nbsp;
+                                                        <input type="text" class="border-bottom-input"> 층 <input type="text" class="border-bottom-input"> 개, &nbsp;
+                                                        <input type="text" class="border-bottom-input"> 층 <input type="text" class="border-bottom-input"> 개
+                                                    </td>
+                                                    <td class="bg-pure font-bold" style="border-bottom: none; border-right: none;">합계: <input type="text" class="blank-input-box" style="width:25px;">개</td>
+                                                </tr>
+                                            </tbody>
                                         </table>
                                     </td>
                                 </tr>
-                                
+
                                 <tr>
-                                    <td class="bg-pure txt-center" style="font-weight: bold;">충전시설<br>규격</td>
-                                    <td style="padding: 0;">
-                                        <table class="nested-flat-table">
+                                    <td class="bg-pure font-bold txt-center">충전시설<br>규격</td>
+                                    <td class="no-padding">
+                                        <table class="nested-cell-layout">
                                             <colgroup>
                                                 <col style="width: 10%;">
                                                 <col style="width: 15%;">
                                                 <col style="width: 60%;">
                                                 <col style="width: 15%;">
                                             </colgroup>
-                                            <tr>
-                                                <td class="bg-pure" rowspan="4">완속</td>
-                                                <td class="bg-dim-light">종류</td>
-                                                <td class="bg-dim-light">전기용량(kW) 및 갯수</td>
-                                                <td class="bg-pure">합계: <input type="text" class="blank-input" style="width:25px;">개</td>
-                                            </tr>
-                                            <tr>
-                                                <td><input type="text" class="txt-center"></td>
-                                                <td class="txt-left">kW: <input type="text" class="border-bottom-input"> 개, &nbsp; kW: <input type="text" class="border-bottom-input"> 개, &nbsp; kW: <input type="text" class="border-bottom-input"> 개</td>
-                                                <td><input type="text" class="txt-center" placeholder="개"></td>
-                                            </tr>
-                                            <tr>
-                                                <td><input type="text" class="txt-center"></td>
-                                                <td class="txt-left">kW: <input type="text" class="border-bottom-input"> 개, &nbsp; kW: <input type="text" class="border-bottom-input"> 개, &nbsp; kW: <input type="text" class="border-bottom-input"> 개</td>
-                                                <td><input type="text" class="txt-center" placeholder="개"></td>
-                                            </tr>
-                                            <tr>
-                                                <td><input type="text" class="txt-center"></td>
-                                                <td class="txt-left">kW: <input type="text" class="border-bottom-input"> 개, &nbsp; kW: <input type="text" class="border-bottom-input"> 개, &nbsp; kW: <input type="text" class="border-bottom-input"> 개</td>
-                                                <td><input type="text" class="txt-center" placeholder="개"></td>
-                                            </tr>
-                                            <tr>
-                                                <td class="bg-pure" rowspan="4" style="border-bottom:none;">급속</td>
-                                                <td class="bg-dim-light">종류</td>
-                                                <td class="bg-dim-light">전기용량(kW) 및 갯수</td>
-                                                <td class="bg-pure">합계: <input type="text" class="blank-input" style="width:25px;">개</td>
-                                            </tr>
-                                            <tr>
-                                                <td><input type="text" class="txt-center"></td>
-                                                <td class="txt-left">kW: <input type="text" class="border-bottom-input"> 개, &nbsp; kW: <input type="text" class="border-bottom-input"> 개, &nbsp; kW: <input type="text" class="border-bottom-input"> 개</td>
-                                                <td><input type="text" class="txt-center" placeholder="개"></td>
-                                            </tr>
-                                            <tr>
-                                                <td><input type="text" class="txt-center"></td>
-                                                <td class="txt-left">kW: <input type="text" class="border-bottom-input"> 개, &nbsp; kW: <input type="text" class="border-bottom-input"> 개, &nbsp; kW: <input type="text" class="border-bottom-input"> 개</td>
-                                                <td><input type="text" class="txt-center" placeholder="개"></td>
-                                            </tr>
-                                            <tr style="border-bottom:none;">
-                                                <td style="border-bottom:none;"><input type="text" class="txt-center"></td>
-                                                <td class="txt-left" style="border-bottom
+                                            <tbody>
+                                                <tr>
+                                                    <td class="bg-pure txt-center" rowspan="4">완속</td>
+                                                    <td class="bg-dim-sub font-bold">종류</td>
+                                                    <td class="bg-dim-sub font-bold">전기용량(kW) 및 갯수</td>
+                                                    <td class="bg-pure font-bold">합계: <input type="text" class="blank-input-box" style="width:22px;">개</td>
+                                                </tr>
+                                                <tr>
+                                                    <td><input type="text" class="txt-center"></td>
+                                                    <td class="txt-left">kW: <input type="text" class="border-bottom-input"> 개, &nbsp; kW: <input type="text" class="border-bottom-input"> 개, &nbsp; kW: <input type="text" class="border-bottom-input"> 개</td>
+                                                    <td><input type="text" class="txt-center" placeholder="개"></td>
+                                                </tr>
+                                                <tr>
+                                                    <td><input type="text" class="txt-center"></td>
+                                                    <td class="txt-left">kW: <input type="text" class="border-bottom-input"> 개, &nbsp; kW: <input type="text" class="border-bottom-input"> 개, &nbsp; kW: <input type="text" class="border-bottom-input"> 개</td>
+                                                    <td><input type="text" class="txt-center" placeholder="개"></td>
+                                                </tr>
+                                                <tr>
+                                                    <td><input type="text" class="txt-center"></td>
+                                                    <td class="txt-left">kW: <input type="text" class="border-bottom-input"> 개, &nbsp; kW: <input type="text" class="border-bottom-input"> 개, &nbsp; kW: <input type="text" class="border-bottom-input"> 개</td>
+                                                    <td><input type="text" class="txt-center" placeholder="개"></td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="bg-pure txt-center" rowspan="4" style="border-bottom: none;">급속</td>
+                                                    <td class="bg-dim-sub font-bold">종류</td>
+                                                    <td class="bg-dim-sub font-bold">전기용량(kW) 및 갯수</td>
+                                                    <td class="bg-pure font-bold">합계: <input type="text" class="blank-input-box" style="width:22px;">개</td>
+                                                </tr>
+                                                <tr>
+                                                    <td><input type="text" class="txt-center"></td>
+                                                    <td class="txt-left">kW: <input type="text" class="border-bottom-input"> 개, &nbsp; kW: <input type="text" class="border-bottom-input"> 개, &nbsp; kW: <input type="text" class="border-bottom-input"> 개</td>
+                                                    <td><input type="text" class="txt-center" placeholder="개"></td>
+                                                </tr>
+                                                <tr>
+                                                    <td><input type="text" class="txt-center"></td>
+                                                    <td class="txt-left">kW: <input type="text" class="border-bottom-input"> 개, &nbsp; kW: <input type="text" class="border-bottom-input">
