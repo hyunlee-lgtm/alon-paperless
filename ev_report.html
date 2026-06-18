@@ -1,188 +1,282 @@
-<div class="form-container">
-    <div class="control-panel">
-        <h3>⚡ 전기차 충전시설 설치·변경 신고서</h3>
-        <p>내용을 입력하신 후 인쇄 버튼을 누르시면 A4 규격에 맞게 깔끔하게 출력 및 PDF 저장이 가능합니다.</p>
-        <button class="print-btn" onclick="window.print()">🖨️ 서식 인쇄 / PDF 저장</button>
-    </div>
+<style>
+    /* 서식 전체 컨테이너 및 A4 스펙 제한 */
+    .ev-report-wrapper {
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        background-color: #f1f5f9;
+        padding: 20px 0;
+        font-family: 'Pretendard', sans-serif;
+    }
+    .legal-page {
+        width: 210mm;
+        min-height: 297mm;
+        background: #ffffff;
+        padding: 15mm 15mm;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        box-sizing: border-box;
+        color: #000000;
+        display: flex;
+        flex-direction: column;
+    }
 
+    /* 상단 장식 및 타이틀 */
+    .legal-header {
+        display: flex;
+        justify-content: space-between;
+        font-size: 11px;
+        font-weight: bold;
+        margin-bottom: 15px;
+    }
+    .form-main-title {
+        text-align: center;
+        font-size: 24px;
+        font-weight: bold;
+        margin: 10px 0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 15px;
+    }
+    .check-box-group {
+        font-size: 13px;
+        font-weight: normal;
+        border: 1px solid #000;
+        padding: 3px 8px;
+        display: inline-flex;
+        gap: 10px;
+    }
+    .form-notice {
+        font-size: 10px;
+        margin-bottom: 8px;
+    }
+
+    /* 법정 그리드 테이블 강제 고정 */
+    .legal-table {
+        width: 100%;
+        border-collapse: collapse;
+        table-layout: fixed;
+        border: 2px solid #000000;
+        font-size: 11px;
+    }
+    .legal-table td {
+        border: 1px solid #000000;
+        height: 28px;
+        padding: 4px 6px;
+        vertical-align: middle;
+        text-align: center;
+        box-sizing: border-box;
+    }
+
+    /* 배경색 정의 */
+    .lbl-gray { background-color: #eaeaea; font-weight: bold; }
+    .lbl-white { background-color: #ffffff; }
+    
+    .align-left { text-align: left !important; }
+    .text-center { text-align: center !important; }
+
+    /* 입력 폼 필드 스타일 정의 */
+    .legal-table input[type="text"] {
+        width: 100%;
+        height: 100%;
+        border: none;
+        background: transparent;
+        font-size: 11px;
+        padding: 0;
+        outline: none;
+    }
+    .inline-in {
+        width: 40px;
+        border: none;
+        border-bottom: 1px solid #000;
+        text-align: center;
+        font-size: 11px;
+        background: transparent;
+        outline: none;
+    }
+    .legal-table textarea {
+        width: 100%;
+        height: 60px;
+        border: none;
+        background: transparent;
+        resize: none;
+        font-size: 11px;
+        padding: 4px;
+        box-sizing: border-box;
+        outline: none;
+    }
+
+    /* 하단 신고 영역 */
+    .legal-footer-text { font-size: 12px; line-height: 1.6; margin-top: 25px; text-align: justify; }
+    .legal-date { text-align: center; font-size: 13px; margin-top: 35px; font-weight: bold; }
+    .legal-signer { text-align: right; font-size: 13px; margin-top: 25px; padding-right: 20px; }
+    .legal-authority { font-size: 15px; font-weight: bold; margin-top: 35px; }
+
+    .legal-bottom-bar { width: 100%; border-collapse: collapse; border: 1px solid #000; margin-top: auto; font-size: 11px; }
+    .legal-bottom-bar td { border: 1px solid #000; height: 26px; }
+    .paper-spec { text-align: right; font-size: 9px; margin-top: 4px; color: #333; }
+
+    @media print {
+        @page { size: A4; margin: 0; }
+        body { background: #fff; }
+        .ev-report-wrapper { padding: 0; background: transparent; }
+        .legal-page { width: 210mm; height: 297mm; box-shadow: none; padding: 15mm; page-break-after: avoid; }
+    }
+</style>
+
+<div class="ev-report-wrapper">
     <div class="legal-page">
         <div class="legal-header">
-            <span class="law-title">■ 전기안전관리법 시행규칙 [별지 제13호의2서식] &lt;개정 2025. 11. 25.&gt;</span>
-            <span class="page-side">(앞쪽)</span>
+            <span>■ 전기안전관리법 시행규칙 [별지 제13호의2서식] &lt;개정 2025. 11. 25.&gt; [cite: 22]</span>
+            <span>(앞쪽) [cite: 29]</span>
         </div>
 
         <h1 class="form-main-title">
-            전기자동차 충전시설 
+            전기자동차 충전시설 [cite: 23]
             <div class="check-box-group">
-                <label><input type="radio" name="report_type" checked> [ ] 설치</label>
-                <label><input type="radio" name="report_type"> [ ] 변경</label>
+                <label><input type="radio" name="rpt_type" checked> [ ] 설치 [cite: 24]</label>
+                <label><input type="radio" name="rpt_type"> [ ] 변경 [cite: 24]</label>
             </div> 
-            신고서
+            신고서 [cite: 28]
         </h1>
         
-        <p class="form-notice">※ 바탕색이 어두운 난은 신고인이 작성하지 않으며, [ ]에는 해당되는 곳에 ✓ 표를 합니다.</p>
+        <p class="form-notice">※ 바탕색이 어두운 난은 신고인이 작성하지 않으며, [ ]에는 해당되는 곳에 ✓ 표를 합니다. [cite: 25]</p>
 
         <table class="legal-table">
             <colgroup>
-                <col style="width: 5%;">
+                <col style="width: 6%;">
+                <col style="width: 14%;">
+                <col style="width: 15%;">
+                <col style="width: 20%;">
                 <col style="width: 13%;">
                 <col style="width: 12%;">
-                <col style="width: 16%;">
-                <col style="width: 12%;">
-                <col style="width: 14%;">
-                <col style="width: 12%;">
-                <col style="width: 16%;">
+                <col style="width: 20%;">
             </colgroup>
             <tbody>
                 <tr>
-                    <td class="lbl-gray" colspan="2">접수번호</td>
-                    <td colspan="2"><input type="text" class="text-center" placeholder="(공란)"></td>
-                    <td class="lbl-gray" colspan="2">접수일</td>
-                    <td colspan="2"><input type="text" class="text-center" placeholder="(공란)"></td>
+                    <td class="lbl-gray" colspan="2">접수번호 [cite: 25]</td>
+                    <td colspan="2"><input type="text" class="text-center" readonly></td>
+                    <td class="lbl-gray">접수일 [cite: 26]</td>
+                    <td colspan="2"><input type="text" class="text-center" readonly></td>
                 </tr>
 
                 <tr>
-                    <td class="lbl-gray" rowspan="3" style="font-size: 11px; letter-spacing: 2px;">신고인</td>
-                    <td class="lbl-white" colspan="2">성명(대표자)</td>
-                    <td colspan="2"><input type="text" placeholder="성명 입력"></td>
-                    <td class="lbl-white">전화번호</td>
+                    <td class="lbl-gray" rowspan="3">신고인 [cite: 27]</td>
+                    <td class="lbl-white" colspan="2">성명(대표자) [cite: 27]</td>
+                    <td><input type="text" placeholder="성명 입력"></td>
+                    <td class="lbl-white">전화번호 [cite: 27]</td>
                     <td colspan="2"><input type="text" placeholder="02-1234-5678"></td>
                 </tr>
                 <tr>
-                    <td class="lbl-white" colspan="2">회사명 또는 상호</td>
-                    <td colspan="2"><input type="text" value="ALON"></td>
-                    <td class="lbl-white">전자우편</td>
+                    <td class="lbl-white" colspan="2">회사명 또는 상호 [cite: 27]</td>
+                    <td><input type="text" value="ALON"></td>
+                    <td class="lbl-white">전자우편 [cite: 27]</td>
                     <td colspan="2"><input type="text" placeholder="test@test.com"></td>
                 </tr>
                 <tr>
-                    <td class="lbl-white" colspan="2">주소</td>
-                    <td colspan="5"><input type="text" placeholder="회사 주소 입력"></td>
+                    <td class="lbl-white" colspan="2">주소 [cite: 27]</td>
+                    <td colspan="4"><input type="text" placeholder="주소 입력"></td>
                 </tr>
 
                 <tr>
-                    <td class="lbl-gray" rowspan="2" style="font-size: 10px; line-height: 1.2;">충전시설<br>설치<br>사업장</td>
-                    <td class="lbl-white" colspan="2">충전시설 위치<br>(설치주소)</td>
-                    <td colspan="5"><input type="text" placeholder="충전시설이 설치될 실제 주소 입력"></td>
+                    <td class="lbl-gray" rowspan="2" style="font-size:10px; line-height:1.3;">충전시설<br>설치<br>사업장 [cite: 27]</td>
+                    <td class="lbl-white" colspan="2">충전시설 위치<br>(설치주소) [cite: 27]</td>
+                    <td colspan="4"><input type="text" placeholder="설치 위치 주소 입력"></td>
                 </tr>
                 <tr>
-                    <td class="lbl-white" colspan="2">사업장 명칭 또는 상호</td>
-                    <td colspan="2"><input type="text" placeholder="사업장 명칭"></td>
-                    <td class="lbl-white">전화번호</td>
-                    <td colspan="2"><input type="text" placeholder="(전화번호:                 )"></td>
-                </tr>
-
-                <tr>
-                    <td class="lbl-gray" rowspan="11" style="font-size: 11px;">신고내용</td>
-                    <td class="lbl-white" rowspan="4" style="font-size: 11px;">충전시설<br>설치수량</td>
-                    <td class="lbl-white" rowspan="2">지상</td>
-                    <td class="align-left" colspan="4">
-                        옥외 <input type="text" class="inline-in"> 개, &nbsp;&nbsp;
-                        1층 <input type="text" class="inline-in"> 개, &nbsp;&nbsp;
-                        2층 <input type="text" class="inline-in"> 개
-                    </td>
-                    <td class="lbl-gray" rowspan="2" style="font-weight: bold;">합계: <input type="text" class="inline-in-noborder" style="width:25px; text-align:center; font-weight:bold;"> 개</td>
-                </tr>
-                <tr>
-                    <td class="align-left" colspan="4">
-                        <input type="text" class="inline-in"> 층 <input type="text" class="inline-in"> 개, &nbsp;&nbsp;
-                        <input type="text" class="inline-in"> 층 <input type="text" class="inline-in"> 개
-                    </td>
-                </tr>
-                <tr>
-                    <td class="lbl-white" rowspan="2">지하</td>
-                    <td class="align-left" colspan="4">
-                        B1층 <input type="text" class="inline-in"> 개, &nbsp;&nbsp;
-                        <input type="text" class="inline-in"> 층 <input type="text" class="inline-in"> 개
-                    </td>
-                    <td class="lbl-gray" rowspan="2" style="font-weight: bold;">합계: <input type="text" class="inline-in-noborder" style="width:25px; text-align:center; font-weight:bold;"> 개</td>
-                </tr>
-                <tr>
-                    <td class="align-left" colspan="4">
-                        <input type="text" class="inline-in"> 층 <input type="text" class="inline-in"> 개
-                    </td>
+                    <td class="lbl-white" colspan="2">사업장 명칭 또는 상호 [cite: 27]</td>
+                    <td><input type="text" placeholder="사업장 명칭"></td>
+                    <td class="lbl-white">전화번호 [cite: 27]</td>
+                    <td colspan="2" class="align-left">(전화번호: <input type="text" class="inline-in" style="width:100px;"> ) [cite: 27]</td>
                 </tr>
 
                 <tr>
-                    <td class="lbl-white" rowspan="6">충전시설<br>규격</td>
-                    <td class="lbl-white" rowspan="3">완속</td>
-                    <td class="lbl-white">종류</td>
-                    <td class="lbl-white" colspan="4">전기용량(kW) 및 갯수</td>
-                    <td class="lbl-gray" rowspan="3" style="font-weight: bold;">합계: <input type="text" class="inline-in-noborder" style="width:25px; text-align:center; font-weight:bold;"> 개</td>
-                </tr>
-                <tr>
-                    <td><input type="text" class="text-center" placeholder="A완속"></td>
-                    <td class="align-left" colspan="4">
-                        7 kW <input type="text" class="inline-in"> 개, &nbsp;&nbsp;
-                        <input type="text" class="inline-in"> kW <input type="text" class="inline-in"> 개
+                    <td class="lbl-gray" rowspan="9">신고내용 [cite: 27]</td>
+                    <td class="lbl-white" rowspan="3">충전시설<br>설치수량 [cite: 27]</td>
+                    <td class="lbl-white">지상 [cite: 27]</td>
+                    <td class="align-left" colspan="3">
+                        옥외 <input type="text" class="inline-in"> 개, [cite: 27]
+                        1층 <input type="text" class="inline-in"> 개, [cite: 27]
+                        2층 <input type="text" class="inline-in"> 개 [cite: 27]
                     </td>
+                    <td class="lbl-gray">합계: <input type="text" class="inline-in" style="width:30px;"> 개 [cite: 27]</td>
                 </tr>
                 <tr>
-                    <td><input type="text" class="text-center"></td>
-                    <td class="align-left" colspan="4">
-                        <input type="text" class="inline-in"> kW <input type="text" class="inline-in"> 개, &nbsp;&nbsp;
+                    <td class="lbl-white">지하 [cite: 27]</td>
+                    <td class="align-left" colspan="3">
+                        B1층 <input type="text" class="inline-in"> 개, [cite: 8]
+                        <input type="text" class="inline-in"> 층 <input type="text" class="inline-in"> 개
+                    </td>
+                    <td class="lbl-gray">합계: <input type="text" class="inline-in" style="width:30px;"> 개 [cite: 27]</td>
+                </tr>
+
+                <tr>
+                    <td class="lbl-white" rowspan="4">충전시설<br>규격 [cite: 27]</td>
+                    <td class="lbl-white" rowspan="2">완속 [cite: 27]</td>
+                    <td class="lbl-white">종류 [cite: 27]</td>
+                    <td class="lbl-white" colspan="2">전기용량(kW) 및 갯수 [cite: 27]</td>
+                    <td class="lbl-gray">합계: [cite: 27] <input type="text" class="inline-in" style="width:30px;"> 개 [cite: 27]</td>
+                </tr>
+                <tr>
+                    <td><input type="text" class="text-center" placeholder="종류 입력"></td>
+                    <td class="align-left" colspan="3">
+                        7 kW <input type="text" class="inline-in"> 개, [cite: 8]
                         <input type="text" class="inline-in"> kW <input type="text" class="inline-in"> 개
                     </td>
                 </tr>
 
                 <tr>
-                    <td class="lbl-white" rowspan="3">급속</td>
-                    <td class="lbl-white">종류</td>
-                    <td class="lbl-white" colspan="4">전기용량(kW) 및 갯수</td>
-                    <td class="lbl-gray" rowspan="3" style="font-weight: bold;">합계: <input type="text" class="inline-in-noborder" style="width:25px; text-align:center; font-weight:bold;"> 개</td>
+                    <td class="lbl-white" rowspan="2">급속 [cite: 27]</td>
+                    <td class="lbl-white">종류 [cite: 27]</td>
+                    <td class="lbl-white" colspan="2">전기용량(kW) 및 갯수 [cite: 27]</td>
+                    <td class="lbl-gray">합계: [cite: 27] <input type="text" class="inline-in" style="width:30px;"> 개 [cite: 27]</td>
                 </tr>
                 <tr>
-                    <td><input type="text" class="text-center" placeholder="급속"></td>
-                    <td class="align-left" colspan="4">
-                        50 kW <input type="text" class="inline-in"> 개, &nbsp;&nbsp;
-                        100 kW <input type="text" class="inline-in"> 개
-                    </td>
-                </tr>
-                <tr>
-                    <td><input type="text" class="text-center"></td>
-                    <td class="align-left" colspan="4">
-                        <input type="text" class="inline-in"> kW <input type="text" class="inline-in"> 개, &nbsp;&nbsp;
-                        <input type="text" class="inline-in"> kW <input type="text" class="inline-in"> 개
+                    <td><input type="text" class="text-center" placeholder="종류 입력"></td>
+                    <td class="align-left" colspan="3">
+                        50 kW <input type="text" class="inline-in"> 개, [cite: 8]
+                        100 kW <input type="text" class="inline-in"> 개 [cite: 8]
                     </td>
                 </tr>
 
                 <tr>
-                    <td class="lbl-white" colspan="2" rowspan="2">전기자동차<br>충전시설<br>운영자</td>
-                    <td class="lbl-white" colspan="2">회사명 또는 상호</td>
-                    <td colspan="2"><input type="text" placeholder="운영사 상호"></td>
-                    <td class="lbl-white">운영수량</td>
-                    <td><input type="text" class="text-center" placeholder="개"></td>
+                    <td class="lbl-white" colspan="2" rowspan="2">전기자동차<br>충전시설 운영자 [cite: 27]</td>
+                    <td class="lbl-white">회사명 또는 상호 [cite: 27]</td>
+                    <td colspan="2"><input type="text" placeholder="운영사 입력"></td>
+                    <td class="lbl-white">운영수량 [cite: 27]</td>
+                    <td><input type="text" class="text-center" placeholder="개"> [cite: 27]</td>
                 </tr>
                 <tr>
-                    <td class="lbl-white" colspan="2">회사명 또는 상호</td>
+                    <td class="lbl-white">회사명 또는 상호 [cite: 27]</td>
                     <td colspan="2"><input type="text"></td>
-                    <td class="lbl-white">운영수량</td>
-                    <td><input type="text" class="text-center" placeholder="개"></td>
+                    <td class="lbl-white">운영수량 [cite: 27]</td>
+                    <td><input type="text" class="text-center" placeholder="개"> [cite: 27]</td>
                 </tr>
 
                 <tr>
-                    <td class="lbl-gray" colspan="2" style="height:45px;">변경 사유</td>
-                    <td colspan="6" class="align-left" style="font-size: 10px; line-height: 1.4; padding: 4px 6px;">
-                        <label><input type="checkbox"> 충전시설의 위치</label>&nbsp;&nbsp;&nbsp;&nbsp;
-                        <label><input type="checkbox"> 충전시설의 설치수량</label><br>
-                        <label><input type="checkbox"> 충전시설의 규격(전기용량을 포함합니다)</label><br>
-                        <label><input type="checkbox"> 전기자동차 충전시설 운영자의 회사명 또는 상호</label>
+                    <td class="lbl-gray" colspan="2">변경 사유 [cite: 27]</td>
+                    <td colspan="5" class="align-left" style="font-size: 10px; line-height: 1.4;">
+                        <input type="checkbox"> 충전시설의 위치 [cite: 27] &nbsp;&nbsp;
+                        <input type="checkbox"> 충전시설의 설치수량 [cite: 27] <br>
+                        <input type="checkbox"> 충전시설의 규격(전기용량을 포함합니다) [cite: 27] <br>
+                        <input type="checkbox"> 전기자동차 충전시설 운영자의 회사명 또는 상호 [cite: 27]
                     </td>
                 </tr>
 
                 <tr>
-                    <td class="lbl-gray" rowspan="2" colspan="2">변경 사항</td>
-                    <td class="lbl-white" colspan="3" style="height:20px; font-weight: bold;">변경 전</td>
-                    <td class="lbl-white" colspan="3" style="font-weight: bold;">변경 후</td>
+                    <td class="lbl-gray" rowspan="2" colspan="2">변경 사항 [cite: 27]</td>
+                    <td class="lbl-white" colspan="2" style="height:20px; font-weight:bold;">변경 전 [cite: 27]</td>
+                    <td class="lbl-white" colspan="3" style="font-weight:bold;">변경 후 [cite: 27]</td>
                 </tr>
                 <tr>
-                    <td colspan="3" style="height: 55px; padding:0;"><textarea placeholder="변경 전 내용 입력"></textarea></td>
-                    <td colspan="3" style="height: 55px; padding:0;"><textarea placeholder="변경 후 내용 입력"></textarea></td>
+                    <td colspan="2"><textarea placeholder="변경 전 내용"></textarea></td>
+                    <td colspan="3"><textarea placeholder="변경 후 내용"></textarea></td>
                 </tr>
             </tbody>
         </table>
 
         <div class="legal-footer-text">
-            「전기안전관리법」 제21조의2제1항 및 같은 법 시행규칙 제24조의2제1항에 따라 위와 같이 전기자동차 충전시설 [ ]설치신고 [ ]변경신고를 합니다.
+            「전기안전관리법」 제21조의2제1항 및 같은 법 시행규칙 제24조의2제1항에 따라 위와 같이 전기자동차 충전시설 [ ]설치신고 [ ]변경신고를 합니다. [cite: 30]
         </div>
 
         <div class="legal-date">
@@ -190,54 +284,22 @@
         </div>
 
         <div class="legal-signer">
-            신고인 : <input type="text" class="inline-in-noborder" style="width:120px; border-bottom:1px solid #000; text-align:center;" placeholder="성명 또는 상호"> (서명 또는 인)
+            신고인 : <input type="text" class="inline-in" style="width:120px;"> (서명 또는 인) [cite: 31, 37]
         </div>
 
         <div class="legal-authority">
-            서울특별시장 <span class="target-inf">귀하</span>
+            서울특별시장 귀하 [cite: 32]
         </div>
 
         <table class="legal-bottom-bar">
             <tr>
-                <td style="width: 15%; background: #f1f5f9; font-weight: bold; height:24px;">첨부서류</td>
-                <td style="width: 55%; text-align: left; padding-left: 10px;">없음</td>
-                <td style="width: 15%; background: #f1f5f9; font-weight: bold;">수수료</td>
-                <td style="width: 15%;">없음</td>
+                <td style="width: 15%; background: #eaeaea; font-weight: bold;">첨부서류 [cite: 10]</td>
+                <td style="width: 55%; text-align: left; padding-left: 10px;">없음 [cite: 33]</td>
+                <td style="width: 15%; background: #eaeaea; font-weight: bold;">수수료 [cite: 20]</td>
+                <td style="width: 15%;">없음 [cite: 38]</td>
             </tr>
         </table>
         
-        <div class="paper-spec">210mm×297mm[백상지(80g/m²)]</div>
+        <div class="paper-spec">210mm×297mm[백상지(80g/m²)] [cite: 39]</div>
     </div>
 </div>
-
-<style>
-    /* 기본 배경셋 및 초기화 */
-    .form-container {
-        display: flex;
-        flex-direction: column;
-        width: 100%;
-        padding: 15px;
-        align-items: center;
-        background-color: #f1f5f9;
-        min-height: 100vh;
-    }
-
-    .control-panel {
-        width: 100%;
-        max-width: 210mm;
-        background: #fff;
-        padding: 12px 20px;
-        border-radius: 6px;
-        margin-bottom: 12px;
-        box-shadow: 0 2px 4px rgba(0,0,0,0.05);
-        border-left: 4px solid #0284c7;
-    }
-    .control-panel h3 { font-size: 14px; margin-bottom: 4px; color: #0f172a; }
-    .control-panel p { font-size: 12px; color: #64748b; margin-bottom: 8px; }
-    .print-btn {
-        background: #0284c7; color: white; border: none; padding: 6px 14px;
-        font-size: 11px; font-weight: bold; border-radius: 4px; cursor: pointer;
-    }
-    .print-btn:hover { background: #0369a1; }
-
-    /* A
